@@ -20,9 +20,4 @@ public class RoundController {
     public Response<RoundDto> create(@RequestBody RoundCreateRequest request) {
         return Response.success(roundService.create(request));
     }
-
-    @GetMapping
-    public Response<List<RoundDto>> getByDhlottery(@RequestParam Long drwNo) throws JsonProcessingException {
-        return Response.success(roundService.getDhlotteryRounds(drwNo));
-    }
 }

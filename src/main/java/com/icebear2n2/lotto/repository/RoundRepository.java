@@ -21,4 +21,18 @@ public class RoundRepository {
 
     public Round findByDrawNo(Long drawNo) { return roundJpaRepository.findByDrawNo(drawNo).orElseThrow(RoundNotFoundException::new); }
 
+    public Round updateByDrawNo(Long drawNo, Round round) {
+        Round roundEntity = findByDrawNo(drawNo);
+        roundEntity.setDrawDate(round.getDrawDate());
+        roundEntity.setWinningNum1(round.getWinningNum1());
+        roundEntity.setWinningNum2(round.getWinningNum2());
+        roundEntity.setWinningNum3(round.getWinningNum3());
+        roundEntity.setWinningNum4(round.getWinningNum4());
+        roundEntity.setWinningNum5(round.getWinningNum5());
+        roundEntity.setWinningNum6(round.getWinningNum6());
+        roundEntity.setBonusNumber(round.getBonusNumber());
+
+        return roundJpaRepository.save(roundEntity);
+    }
+
 }

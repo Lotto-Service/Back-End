@@ -18,8 +18,4 @@ import java.util.List;
 public class PrizeController {
     private final PrizeService prizeService;
 
-    @GetMapping
-    public Response<List<PrizeDto>> getDhlotteryPrize(@RequestParam Long drwNo) throws JsonProcessingException {
-        return Response.success(prizeService.getDhlotteryPrize(drwNo));
-    }
 }
