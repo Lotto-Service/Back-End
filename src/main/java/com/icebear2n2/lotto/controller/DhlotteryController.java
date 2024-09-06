@@ -5,10 +5,7 @@ import com.icebear2n2.lotto.model.dto.DhlotteryRoundDto;
 import com.icebear2n2.lotto.model.response.Response;
 import com.icebear2n2.lotto.service.DhlotteryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/dhlottery")

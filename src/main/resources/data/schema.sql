@@ -15,24 +15,6 @@ CREATE TABLE USERS (
                        DELETED_AT TIMESTAMP
 );
 
-DROP TABLE IF EXISTS LOTTO_TICKETS;
-
--- 사용자 로또 티켓 정보
-CREATE TABLE LOTTO_TICKETS (
-                               TICKET_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-                               USER_ID BIGINT NOT NULL,
-                               ROUND_ID BIGINT NOT NULL,
-                               NUM1 INT NOT NULL,
-                               NUM2 INT NOT NULL,
-                               NUM3 INT NOT NULL,
-                               NUM4 INT NOT NULL,
-                               NUM5 INT NOT NULL,
-                               NUM6 INT NOT NULL,
-                               IS_AUTO BOOLEAN NOT NULL DEFAULT FALSE, -- 수동(0), 자동(1)
-                               CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                               FOREIGN KEY (USER_ID) REFERENCES USERS(USER_ID),
-                               FOREIGN KEY (ROUND_ID) REFERENCES ROUNDS(ROUND_ID)
-);
 
 DROP TABLE IF EXISTS ROUNDS;
 
@@ -51,15 +33,35 @@ CREATE TABLE ROUNDS (
                         CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS LOTTO_TICKETS;
+
+-- 사용자 로또 티켓 정보
+CREATE TABLE LOTTO_TICKETS (
+                               TICKET_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                               USER_ID BIGINT NOT NULL,
+                               DRAW_NO BIGINT,
+                               NUM1 INT NOT NULL,
+                               NUM2 INT NOT NULL,
+                               NUM3 INT NOT NULL,
+                               NUM4 INT NOT NULL,
+                               NUM5 INT NOT NULL,
+                               NUM6 INT NOT NULL,
+                               IS_AUTO BOOLEAN NOT NULL DEFAULT FALSE, -- 수동(0), 자동(1)
+                               CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                               FOREIGN KEY (USER_ID) REFERENCES USERS(USER_ID),
+                               FOREIGN KEY (DRAW_NO) REFERENCES ROUNDS(DRAW_NO)
+);
+
+
 DROP TABLE IF EXISTS PRIZES;
 
 -- 회차별 누적 금액 정보
 CREATE TABLE PRIZES (
                         PRIZE_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                         DRAW_NO BIGINT,
-                        TOT_SELLAMNT DECIMAL, -- 누적 당첨금
-                        FIRST_ACCUMAMNT DECIMAL, -- 1등 당첨금 총액
+                        TOT_SELLAMNT BIGINT, -- 누적 당첨금
+                        FIRST_ACCUMAMNT BIGINT, -- 1등 당첨금 총액
                         FIRST_PRZWNER_CO INT, -- 1등 당첨 인원
-                        FIRST_WINAMNT DECIMAL, -- 1등 당첨금
+                        FIRST_WINAMNT BIGINT, -- 1등 당첨금
                         FOREIGN KEY (DRAW_NO) REFERENCES ROUNDS(DRAW_NO)
 );

@@ -17,24 +17,24 @@ public class Prize {
     @Column(name = "PRIZE_ID")
     private Long prizeId;
 
-    @ManyToOne
-    @JoinColumn(name = "DRAW_NO")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "DRAW_NO", referencedColumnName = "DRAW_NO")
     private Round round;
 
     @Column(name = "TOT_SELLAMNT")
-    private BigDecimal totSellamnt;
+    private Long totSellamnt;
 
     @Column(name = "FIRST_ACCUMAMNT")
-    private BigDecimal firstAccumamnt;
+    private Long firstAccumamnt;
 
     @Column(name = "FIRST_PRZWNER_CO")
     private Integer firstPrzwnerCo;
 
     @Column(name = "FIRST_WINAMNT")
-    private BigDecimal firstWinamnt;
+    private Long firstWinamnt;
 
 
-    public Prize(Round round, BigDecimal totSellamnt, BigDecimal firstAccumamnt, Integer firstPrzwnerCo, BigDecimal firstWinamnt) {
+    public Prize(Round round, Long totSellamnt, Long firstAccumamnt, Integer firstPrzwnerCo, Long firstWinamnt) {
         this.round = round;
         this.totSellamnt = totSellamnt;
         this.firstAccumamnt = firstAccumamnt;

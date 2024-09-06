@@ -21,7 +21,7 @@ public class LottoTicketController {
     }
 
     @PostMapping("/auto")
-    public Response<LottoTicketDto> createByAutomatic(Authentication authentication, @RequestParam Long roundId) {
-        return Response.success(lottoTicketService.createByAutomatic((User) authentication.getPrincipal(), roundId));
+    public Response<LottoTicketDto> createByAutomatic(Authentication authentication, @RequestParam Long drawNo) {
+        return Response.success(lottoTicketService.createByAutomatic((User) authentication.getPrincipal(), drawNo));
     }
 }

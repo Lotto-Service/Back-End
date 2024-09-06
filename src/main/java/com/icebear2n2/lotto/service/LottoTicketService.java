@@ -16,7 +16,7 @@ public class LottoTicketService {
         return LottoTicketDto.of(lottoTicketRepository.createByManual(request, currentUser));
     }
 
-    public LottoTicketDto createByAutomatic(User currentUser, Long roundId) {
-        return LottoTicketDto.of(lottoTicketRepository.crateByAutomatic(currentUser, roundId));
+    public LottoTicketDto createByAutomatic(User currentUser, Long drawNo) {
+        return LottoTicketDto.of(lottoTicketRepository.crateByAutomatic(currentUser, drawNo));
     }
 }

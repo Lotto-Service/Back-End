@@ -54,22 +54,11 @@ public class DhlotteryService {
 
         DhlotteryRoundDto dhlotteryRounds = objectMapper.readValue(result, new TypeReference<DhlotteryRoundDto>() {});
 
-//        return dhlotteryRounds.stream().map(it -> RoundDto.builder()
-//                .drawNo(it.getDrwNo())
-//                .drawDate(it.getDrwNoDate())
-//                .winningNum1(it.getDrwtNo1())
-//                .winningNum2(it.getDrwtNo2())
-//                .winningNum3(it.getDrwtNo3())
-//                .winningNum4(it.getDrwtNo4())
-//                .winningNum5(it.getDrwtNo5())
-//                .winningNum6(it.getDrwtNo6())
-//                .bonusNumber(it.getBnusNo())
-//                .build()
-//        ).collect(Collectors.toList());
+
 
         Round round = new Round(dhlotteryRounds.getDrwNo(), dhlotteryRounds.getDrwNoDate(), dhlotteryRounds.getDrwtNo1(), dhlotteryRounds.getDrwtNo2(), dhlotteryRounds.getDrwtNo3(), dhlotteryRounds.getDrwtNo4(), dhlotteryRounds.getDrwtNo5(), dhlotteryRounds.getDrwtNo6(), dhlotteryRounds.getBnusNo());
         Prize prize = new Prize(round, dhlotteryRounds.getTotSellamnt(), dhlotteryRounds.getFirstAccumamnt(), dhlotteryRounds.getFirstPrzwnerCo(), dhlotteryRounds.getFirstWinamnt());
-        roundRepository.updateByDrawNo(drwNo, round);
+        roundRepository.create(round);
         prizeRepository.create(prize);
 
         return dhlotteryRounds;

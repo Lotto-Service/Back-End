@@ -10,12 +10,12 @@ import java.math.BigDecimal;
 @Getter
 public class PrizeDto {
     private RoundDto round;
-    private BigDecimal totSellamnt;
-    private BigDecimal firstAccumamnt;
+    private Long totSellamnt;
+    private Long firstAccumamnt;
     private Integer firstPrzwnerCo;
-    private BigDecimal firstWinamnt;
+    private Long firstWinamnt;
 
-    public PrizeDto(Round round, BigDecimal totSellamnt, BigDecimal firstAccumamnt, Integer firstPrzwnerCo, BigDecimal firstWinamnt) {
+    public PrizeDto(Round round, Long totSellamnt, Long firstAccumamnt, Integer firstPrzwnerCo, Long firstWinamnt) {
         this.round = new RoundDto(round.getDrawNo(), round.getDrawDate(), round.getWinningNum1(), round.getWinningNum2(), round.getWinningNum3(), round.getWinningNum4(), round.getWinningNum5(), round.getWinningNum6(), round.getBonusNumber(), round.getCreatedAt());
         this.totSellamnt = totSellamnt;
         this.firstAccumamnt = firstAccumamnt;
