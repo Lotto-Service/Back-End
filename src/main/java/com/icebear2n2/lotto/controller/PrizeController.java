@@ -5,6 +5,8 @@ import com.icebear2n2.lotto.model.dto.PrizeDto;
 import com.icebear2n2.lotto.model.response.Response;
 import com.icebear2n2.lotto.service.PrizeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,4 +20,12 @@ import java.util.List;
 public class PrizeController {
     private final PrizeService prizeService;
 
+    @GetMapping
+    public Response<Page<PrizeDto>> findAll(
+            @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
+            @RequestParam(name = "page", required = false, defaultValue = "5") Integer page
+    ) {
+        PageRequest pageRequest = PageRequest.of(size, page);
+        return Response.success(prizeService.findAll(pageRequest));
+    }
 }

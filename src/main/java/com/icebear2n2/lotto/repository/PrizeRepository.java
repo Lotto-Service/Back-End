@@ -2,6 +2,8 @@ package com.icebear2n2.lotto.repository;
 
 import com.icebear2n2.lotto.model.entity.Prize;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,4 +17,7 @@ public class PrizeRepository {
         return prizeJpaRepository.save(prize);
     }
 
+    public Page<Prize> findAll(PageRequest pageRequest) {
+        return prizeJpaRepository.findAll(pageRequest);
+    }
 }
