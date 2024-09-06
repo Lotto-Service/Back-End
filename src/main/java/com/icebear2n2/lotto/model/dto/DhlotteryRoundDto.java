@@ -3,18 +3,19 @@ package com.icebear2n2.lotto.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
 public class DhlotteryRoundDto {
     @JsonProperty("totSellamnt")
-    private Long totSellamnt;
+    private BigDecimal totSellamnt;
     @JsonProperty("returnValue")
     private String returnValue;
     @JsonProperty("drwNoDate")
     private Date drwNoDate;
     @JsonProperty("firstWinamnt")
-    private Long firstWinamnt;
+    private BigDecimal firstWinamnt;
     @JsonProperty("drwtNo6")
     private Integer drwtNo6;
     @JsonProperty("drwtNo4")
@@ -26,7 +27,7 @@ public class DhlotteryRoundDto {
     @JsonProperty("bnusNo")
     private Integer bnusNo;
     @JsonProperty("firstAccumamnt")
-    private Long firstAccumamnt;
+    private BigDecimal firstAccumamnt;
     @JsonProperty("drwNo")
     private Long drwNo;
     @JsonProperty("drwtNo2")

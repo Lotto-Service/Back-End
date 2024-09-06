@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS ROUNDS;
 -- 회차 정보
 CREATE TABLE ROUNDS (
                         ROUND_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        DRAW_NO BIGINT,
+                        DRAW_NO BIGINT UNIQUE,
                         DRAW_DATE DATE,
                         WINNING_NUM_1 INT,
                         WINNING_NUM_2 INT,
@@ -49,4 +49,17 @@ CREATE TABLE ROUNDS (
                         WINNING_NUM_6 INT,
                         BONUS_NUMBER INT,
                         CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+DROP TABLE IF EXISTS PRIZES;
+
+-- 회차별 누적 금액 정보
+CREATE TABLE PRIZES (
+                        PRIZE_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        DRAW_NO BIGINT,
+                        TOT_SELLAMNT DECIMAL, -- 누적 당첨금
+                        FIRST_ACCUMAMNT DECIMAL, -- 1등 당첨금 총액
+                        FIRST_PRZWNER_CO INT, -- 1등 당첨 인원
+                        FIRST_WINAMNT DECIMAL, -- 1등 당첨금
+                        FOREIGN KEY (DRAW_NO) REFERENCES ROUNDS(DRAW_NO)
+);

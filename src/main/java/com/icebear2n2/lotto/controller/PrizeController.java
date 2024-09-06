@@ -1,0 +1,25 @@
+package com.icebear2n2.lotto.controller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.icebear2n2.lotto.model.dto.PrizeDto;
+import com.icebear2n2.lotto.model.response.Response;
+import com.icebear2n2.lotto.service.PrizeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/prizes")
+@RequiredArgsConstructor
+public class PrizeController {
+    private final PrizeService prizeService;
+
+    @GetMapping
+    public Response<List<PrizeDto>> getDhlotteryPrize(@RequestParam Long drwNo) throws JsonProcessingException {
+        return Response.success(prizeService.getDhlotteryPrize(drwNo));
+    }
+}

@@ -18,4 +18,7 @@ public class RoundRepository {
     public Round findById(Long id) {
         return roundJpaRepository.findById(id).orElseThrow(RoundNotFoundException::new);
     }
+
+    public Round findByDrawNo(Long drawNo) { return roundJpaRepository.findByDrawNo(drawNo).orElseThrow(RoundNotFoundException::new); }
+
 }
