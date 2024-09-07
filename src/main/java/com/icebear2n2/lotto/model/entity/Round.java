@@ -38,6 +38,10 @@ public class Round {
     @Column(name = "CREATED_AT")
     private ZonedDateTime createdAt;
 
+    public Round(Long drawNo) {
+        this.drawNo = drawNo;
+    }
+
     public Round(Long drawNo, Date drawDate, Integer winningNum1, Integer winningNum2, Integer winningNum3, Integer winningNum4, Integer winningNum5, Integer winningNum6, Integer bonusNumber) {
         this.drawNo = drawNo;
         this.drawDate = drawDate;

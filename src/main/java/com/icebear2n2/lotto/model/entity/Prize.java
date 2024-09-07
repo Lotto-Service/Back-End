@@ -33,6 +33,9 @@ public class Prize {
     @Column(name = "FIRST_WINAMNT")
     private Long firstWinamnt;
 
+    public Prize(Round round) {
+        this.round = round;
+    }
 
     public Prize(Round round, Long totSellamnt, Long firstAccumamnt, Integer firstPrzwnerCo, Long firstWinamnt) {
         this.round = round;

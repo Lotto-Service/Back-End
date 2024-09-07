@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class DhlotteryController {
     private final DhlotteryService dhlotteryService;
 
-    @PostMapping("/{drwNo}")
+    @PutMapping("/{drwNo}")
     public Response<DhlotteryRoundDto> saveByLottoNumberAndPrize(@PathVariable Long drwNo) throws JsonProcessingException {
         return Response.success(dhlotteryService.saveByLottoNumberAndPrize(drwNo));
     }
