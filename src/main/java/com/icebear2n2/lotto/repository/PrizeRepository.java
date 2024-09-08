@@ -1,5 +1,6 @@
 package com.icebear2n2.lotto.repository;
 
+import com.icebear2n2.lotto.exception.round.RoundNotFoundException;
 import com.icebear2n2.lotto.model.entity.Prize;
 import com.icebear2n2.lotto.model.entity.Round;
 import lombok.RequiredArgsConstructor;
@@ -18,18 +19,25 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class PrizeRepository {
     private final PrizeJpaRepository prizeJpaRepository;
+    private final RoundRepository roundRepository;
+
 
     @Transactional
     public Prize create(Prize prize) {
         return prizeJpaRepository.save(prize);
     }
 
+    public void emptyCreate(Round round) {
+        prizeJpaRepository.save(new Prize(round));
+    }
+
     public Page<Prize> findAll(PageRequest pageRequest) {
         return prizeJpaRepository.findAll(pageRequest);
     }
 
-    public Prize findByRoundDrawNo(Long drawNo, Round round) {
-        return prizeJpaRepository.findByRoundDrawNo(drawNo).orElse(new Prize(round));
+    public Prize findByRoundDrawNoAndDrawDate(Long drawNo, Date drawDate) {
+        Round round = roundRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElseThrow(RoundNotFoundException::new);
+        return prizeJpaRepository.findByRoundDrawNoAndRoundDrawDate(drawNo, drawDate).orElse(new Prize(round));
     }
 
     public void update(Long drawNo, Long totSellamnt, Long firstAccumamnt, Integer firstPrzwnerCo, Long firstWinamnt) {

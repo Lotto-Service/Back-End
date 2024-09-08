@@ -38,8 +38,9 @@ public class Round {
     @Column(name = "CREATED_AT")
     private ZonedDateTime createdAt;
 
-    public Round(Long drawNo) {
+    public Round(Long drawNo, Date drawDate) {
         this.drawNo = drawNo;
+        this.drawDate = drawDate;
     }
 
     public Round(Long drawNo, Date drawDate, Integer winningNum1, Integer winningNum2, Integer winningNum3, Integer winningNum4, Integer winningNum5, Integer winningNum6, Integer bonusNumber) {
@@ -58,34 +59,6 @@ public class Round {
 
     public void setDrawDate(Date drawDate) {
         this.drawDate = drawDate;
-    }
-
-    public void setWinningNum1(Integer winningNum1) {
-        this.winningNum1 = winningNum1;
-    }
-
-    public void setWinningNum2(Integer winningNum2) {
-        this.winningNum2 = winningNum2;
-    }
-
-    public void setWinningNum3(Integer winningNum3) {
-        this.winningNum3 = winningNum3;
-    }
-
-    public void setWinningNum4(Integer winningNum4) {
-        this.winningNum4 = winningNum4;
-    }
-
-    public void setWinningNum5(Integer winningNum5) {
-        this.winningNum5 = winningNum5;
-    }
-
-    public void setWinningNum6(Integer winningNum6) {
-        this.winningNum6 = winningNum6;
-    }
-
-    public void setBonusNumber(Integer bonusNumber) {
-        this.bonusNumber = bonusNumber;
     }
 
     @PrePersist

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,27 +24,13 @@ public class RoundRepository {
         return roundJpaRepository.save(round);
     }
 
-public Round findByDrawNo(Long drawNo) {
-    // 현재 날짜를 가져옴 (LocalDate)
-    LocalDate currentDate = LocalDate.now();
-
-    // 이번 주 토요일과 다음 주 토요일을 계산
-    LocalDate nextSaturday = currentDate.with(DayOfWeek.SATURDAY);
-    LocalDate followingSaturday = nextSaturday.plusWeeks(1);
-
-    // 현재 날짜와 이번 주 및 다음 주 토요일 사이의 일 수를 계산
-    long daysUntilNextSaturday = ChronoUnit.DAYS.between(currentDate, nextSaturday);
-    long daysUntilFollowingSaturday = ChronoUnit.DAYS.between(currentDate, followingSaturday);
-
-    // 이번 주 토요일 또는 다음 주 토요일 이내라면 새로운 Round 객체 생성
-    if (daysUntilNextSaturday >= 0 && daysUntilNextSaturday <= 7 ||
-            daysUntilFollowingSaturday >= 0 && daysUntilFollowingSaturday <= 14) {
-        return new Round(drawNo);
+    public Round emptyCreate(Long drawNo, Date drawDate) {
+       return roundJpaRepository.save(new Round(drawNo, drawDate));
     }
 
-    // 일주일 이상 경과했거나 토요일이 아닌 경우 예외를 던짐
-    throw new RoundNotFoundException();
-}
+    public Optional<Round> findByDrawNoAndDrawDate(Long drawNo, Date drawDate) {
+        return roundJpaRepository.findByDrawNoAndDrawDate(drawNo, drawDate);
+    }
 
     public Page<Round> findAll(Pageable pageable) { return roundJpaRepository.findAll(pageable); }
 

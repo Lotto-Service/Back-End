@@ -7,6 +7,8 @@ import com.icebear2n2.lotto.repository.LottoTicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class LottoTicketService {
@@ -16,7 +18,7 @@ public class LottoTicketService {
         return LottoTicketDto.of(lottoTicketRepository.createByManual(request, currentUser));
     }
 
-    public LottoTicketDto createByAutomatic(User currentUser, Long drawNo) {
-        return LottoTicketDto.of(lottoTicketRepository.crateByAutomatic(currentUser, drawNo));
+    public LottoTicketDto createByAutomatic(User currentUser, Long drawNo, Date drawDate) {
+        return LottoTicketDto.of(lottoTicketRepository.crateByAutomatic(currentUser, drawNo, drawDate));
     }
 }

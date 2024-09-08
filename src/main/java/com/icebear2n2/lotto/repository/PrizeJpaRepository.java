@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 public interface PrizeJpaRepository extends JpaRepository<Prize, Long> {
     Page<Prize> findAll(Pageable pageable);
-    Optional<Prize> findByRoundDrawNo(Long drawNo);
+    Optional<Prize> findByRoundDrawNoAndRoundDrawDate(Long drawNo, Date drawDate);
 
     @Modifying
     @Transactional

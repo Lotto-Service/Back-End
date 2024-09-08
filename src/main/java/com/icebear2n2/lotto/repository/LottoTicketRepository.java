@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Repository
 @RequiredArgsConstructor
 public class LottoTicketRepository {
@@ -18,30 +20,30 @@ public class LottoTicketRepository {
 
     @Transactional
     public LottoTicket createByManual(LottoTicketCreateRequest request, User currentUser) {
-        Round round = getRound(request.drawNo());
+        Round round = getRound(request.drawNo(), request.drawDate());
 
         return lottoTicketJpaRepository.save(new LottoTicket(currentUser, round, request.num1(), request.num2(), request.num3(), request.num4(), request.num5(), request.num6(), request.isAuto()));
     }
 
 
     @Transactional
-    public LottoTicket crateByAutomatic(User currentUser, Long drawNo) {
-        Round round = getRound(drawNo);
+    public LottoTicket crateByAutomatic(User currentUser, Long drawNo, Date drawDate) {
+        Round round = getRound(drawNo, drawDate);
         return lottoTicketJpaRepository.save(LottoTicket.createByAutomatic(currentUser, round));
     }
 
-    private Round getByDrawNo(Long drawNo) {
-        return roundRepository.findByDrawNo(drawNo);
+    private Round getRound(Long drawNo, Date drawDate) {
+        return roundRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElse(createRoundAndPrize(drawNo, drawDate));
     }
 
-    private Prize getByRoundDrawNo(Long drawNo, Round round) {
-        return prizeRepository.findByRoundDrawNo(drawNo, round);
-    }
+    private Round createRoundAndPrize(Long drawNo, Date drawDate) {
+        // 새로운 Round 생성 및 저장
+        Round round = roundRepository.emptyCreate(drawNo, drawDate);
 
-    private Round getRound(Long drawNo) {
-        Round round = getByDrawNo(drawNo);
-        Prize prize = getByRoundDrawNo(drawNo, round);
-        prizeRepository.create(prize);
+        // 새로운 Prize 생성 및 저장
+        prizeRepository.emptyCreate(round);
+
         return round;
     }
+
 }
