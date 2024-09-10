@@ -6,6 +6,8 @@ import com.icebear2n2.lotto.model.request.LottoTicketCreateRequest;
 import com.icebear2n2.lotto.model.response.Response;
 import com.icebear2n2.lotto.service.LottoTicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +28,24 @@ public class LottoTicketController {
     @PostMapping("/auto")
     public Response<LottoTicketDto> createByAutomatic(Authentication authentication, @RequestParam Long drawNo, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date drawDate) {
         return Response.success(lottoTicketService.createByAutomatic((User) authentication.getPrincipal(), drawNo, drawDate));
+    }
+
+    @GetMapping
+    public Response<Page<LottoTicketDto>> findAllByUser(Authentication authentication,
+                                                     @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
+                                                     @RequestParam(name = "page", required = false, defaultValue = "5") Integer page) {
+        PageRequest pageRequest = PageRequest.of(size, page);
+
+        return Response.success(lottoTicketService.findAllByUser((User) authentication.getPrincipal(), pageRequest));
+    }
+
+    @GetMapping("/{drawNo}")
+    public Response<Page<LottoTicketDto>> findAllByRoundDrawNo(@PathVariable Long drawNo,
+                                                               Authentication authentication,
+                                                               @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
+                                                               @RequestParam(name = "page", required = false, defaultValue = "5") Integer page) {
+        PageRequest pageRequest = PageRequest.of(size, page);
+
+        return Response.success(lottoTicketService.findAllByRoundDrawNo((User) authentication.getPrincipal(), drawNo, pageRequest));
     }
 }

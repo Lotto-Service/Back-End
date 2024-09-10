@@ -6,6 +6,8 @@ import com.icebear2n2.lotto.model.entity.Round;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.model.request.LottoTicketCreateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,14 @@ public class LottoTicketRepository {
     public LottoTicket crateByAutomatic(User currentUser, Long drawNo, Date drawDate) {
         Round round = getRound(drawNo, drawDate);
         return lottoTicketJpaRepository.save(LottoTicket.createByAutomatic(currentUser, round));
+    }
+
+    public Page<LottoTicket> findAllByUser(User currentUser, Pageable pageable) {
+        return lottoTicketJpaRepository.findAllByUser(currentUser, pageable);
+    }
+
+    public Page<LottoTicket> findAllByRoundDrawNo(User currentUser, Long drawNo, Pageable pageable) {
+        return lottoTicketJpaRepository.findAllByUserAndRoundDrawNo(currentUser, drawNo, pageable);
     }
 
     private Round getRound(Long drawNo, Date drawDate) {
