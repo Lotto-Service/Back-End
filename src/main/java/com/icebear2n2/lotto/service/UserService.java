@@ -1,6 +1,5 @@
 package com.icebear2n2.lotto.service;
 
-import com.icebear2n2.lotto.exception.user.UserAlreadyExistException;
 import com.icebear2n2.lotto.exception.user.UserNotFoundException;
 import com.icebear2n2.lotto.model.dto.UserDto;
 import com.icebear2n2.lotto.model.entity.User;

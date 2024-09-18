@@ -1,6 +1,5 @@
 package com.icebear2n2.lotto.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.icebear2n2.lotto.model.dto.PrizeDto;
 import com.icebear2n2.lotto.model.response.Response;
 import com.icebear2n2.lotto.service.PrizeService;

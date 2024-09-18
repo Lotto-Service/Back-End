@@ -1,6 +1,5 @@
 package com.icebear2n2.lotto.repository;
 
-import com.icebear2n2.lotto.exception.round.RoundNotFoundException;
 import com.icebear2n2.lotto.model.entity.Round;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,10 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 

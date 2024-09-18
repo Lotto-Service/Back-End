@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icebear2n2.lotto.http.HttpClient;
 import com.icebear2n2.lotto.model.dto.DhlotteryRoundDto;
-import com.icebear2n2.lotto.model.dto.RoundDto;
-import com.icebear2n2.lotto.model.entity.Prize;
-import com.icebear2n2.lotto.model.entity.Round;
 import com.icebear2n2.lotto.repository.PrizeRepository;
 import com.icebear2n2.lotto.repository.RoundRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
