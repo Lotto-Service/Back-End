@@ -40,13 +40,8 @@ CREATE TABLE LOTTO_TICKETS (
                                TICKET_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                                USER_ID BIGINT NOT NULL,
                                DRAW_NO BIGINT,
-                               NUM1 INT NOT NULL,
-                               NUM2 INT NOT NULL,
-                               NUM3 INT NOT NULL,
-                               NUM4 INT NOT NULL,
-                               NUM5 INT NOT NULL,
-                               NUM6 INT NOT NULL,
-                               IS_AUTO BOOLEAN NOT NULL DEFAULT FALSE, -- 수동(0), 자동(1)
+                               NUM_LIST VARCHAR(200),
+                               IS_AUTO VARCHAR(100) NOT NULL, -- 수동(PASSIVITY), 반자동(SEMI_AUTO), 자동(AUTO)
                                CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                FOREIGN KEY (USER_ID) REFERENCES USERS(USER_ID),
                                FOREIGN KEY (DRAW_NO) REFERENCES ROUNDS(DRAW_NO)

@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/lotto-tickets")
@@ -20,14 +21,14 @@ import java.util.Date;
 public class LottoTicketController {
     private final LottoTicketService lottoTicketService;
 
-    @PostMapping
+    @PostMapping("/manual")
     public Response<LottoTicketDto> createByManual(@RequestBody LottoTicketCreateRequest request, Authentication authentication) {
         return Response.success(lottoTicketService.createByManual(request, (User) authentication.getPrincipal()));
     }
-
-    @PostMapping("/auto")
-    public Response<LottoTicketDto> createByAutomatic(Authentication authentication, @RequestParam Long drawNo, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date drawDate) {
-        return Response.success(lottoTicketService.createByAutomatic((User) authentication.getPrincipal(), drawNo, drawDate));
+    
+    @PostMapping
+    public Response<List<LottoTicketDto>> createLottoTickets(@RequestBody List<LottoTicketCreateRequest> requests, Authentication authentication) {
+    	return Response.success(lottoTicketService.createLottoTickets(requests, (User) authentication.getPrincipal()));
     }
 
     @GetMapping
