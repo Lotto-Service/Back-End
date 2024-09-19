@@ -7,7 +7,11 @@
 백엔드 서버: http://localhost:8080/api/v1
 
 ## 개발팀 소개
-
+|<img src=https://github.com/user-attachments/assets/d4d45533-5fdb-42e1-bd71-bd8e89d5a067 width=300 />|
+|------|
+|Sujeong Hyun(@icebear2n2)|
+|Back-End|
+|현재 인프라 엔지니어로 일하고 있습니다.|
 
 ## 프로젝트 소개
 
