@@ -9,7 +9,7 @@ CREATE TABLE USERS (
                        PASSWORD VARCHAR(100) NOT NULL,
                        EMAIL VARCHAR(100) NOT NULL UNIQUE,
                        BIRTH DATE,
-                       PHONE_NUMBER VARCHAR(100),
+                       PHONE_NUMBER VARCHAR(100) NOT NULL UNIQUE,
                        CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        UPDATED_AT TIMESTAMP,
                        DELETED_AT TIMESTAMP

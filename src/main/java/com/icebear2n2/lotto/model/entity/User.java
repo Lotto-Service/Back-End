@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @Column(name = "BIRTH")
     private Date birth;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER", nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "CREATED_AT")
