@@ -53,7 +53,14 @@ public class User implements UserDetails {
         this.birth = birth;
         this.phoneNumber = phoneNumber;
     }
-
+    
+    public void setPhoneNumber(String phoneNumber) {
+    	this.phoneNumber = phoneNumber;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
