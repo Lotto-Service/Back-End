@@ -47,10 +47,10 @@ public class AuthCodeService {
         
         try {
             this.defaultMessageService.sendOne(new SingleMessageSendingRequest(message));
-            return AuthCodeDto.of(authCodeRepository.saveAuthCode(phoneNumber, code));
-            
+            return AuthCodeDto.of(authCodeRepository.saveAuthCode(currentUser, phoneNumber, code));
         } catch (Exception e) {
-            throw new IllegalArgumentException("Failed send auth code.");
+            e.printStackTrace(); 
+            throw new IllegalArgumentException("Failed to send auth code: " + e.getMessage());
         }
     }
     

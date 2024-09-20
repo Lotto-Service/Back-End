@@ -24,7 +24,7 @@ public class LottoTicket {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "DRAW_NO", referencedColumnName = "DRAW_NO")
     private Round round;
 

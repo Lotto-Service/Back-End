@@ -29,7 +29,7 @@ public class AuthCodeController {
 
 	
 	@GetMapping
-	public Response<AuthCodeDto> checkAuthCode(@RequestParam("phoneNumber") String phoneNumber, Authentication authentication, String code) {
+	public Response<AuthCodeDto> checkAuthCode(@RequestParam("phoneNumber") String phoneNumber, Authentication authentication, @RequestParam("code") String code) {
 		return Response.success(authCodeService.checkAuthCode(phoneNumber,(User) authentication.getPrincipal(), code));
 	}
 	

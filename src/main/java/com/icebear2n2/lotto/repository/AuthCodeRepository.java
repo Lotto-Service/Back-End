@@ -30,8 +30,8 @@ public class AuthCodeRepository {
 	private final AuthCodeJpaRepository authCodeJpaRepository;
 	private final UserJpaRepository userJpaRepository;
     
-    public AuthCode saveAuthCode(String phoneNumber, String code) {
-    	AuthCode authCode = new AuthCode(phoneNumber, code, ZonedDateTime.now().plus(5, ChronoUnit.MINUTES));
+    public AuthCode saveAuthCode(User currentUser, String phoneNumber, String code) {
+    	AuthCode authCode = new AuthCode(currentUser, phoneNumber, code, ZonedDateTime.now().plus(5, ChronoUnit.MINUTES));
     	
     	return authCodeJpaRepository.save(authCode);
     }

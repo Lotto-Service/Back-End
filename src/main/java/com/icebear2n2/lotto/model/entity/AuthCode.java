@@ -26,7 +26,7 @@ public class AuthCode {
     @Column(name = "AUTH_CODE_ID")
     private Long authCodeId;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     private User user;
     
@@ -61,8 +61,8 @@ public class AuthCode {
         this.createdAt = ZonedDateTime.now();
     }
     
-	public AuthCode(String phoneNumber, String code, ZonedDateTime expirationTime) {
-		super();
+	public AuthCode(User user, String phoneNumber, String code, ZonedDateTime expirationTime) {
+		this.user = user;
 		this.phoneNumber = phoneNumber;
 		this.code = code;
 		this.expirationTime = expirationTime;
