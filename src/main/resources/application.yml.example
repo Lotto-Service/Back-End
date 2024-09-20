@@ -13,7 +13,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
-coolsms:
+nurigo:
   api:
     key: "your API Key"
     secret: "your API Secret"

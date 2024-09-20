@@ -47,7 +47,6 @@ public class AuthCodeService {
         
         try {
             this.defaultMessageService.sendOne(new SingleMessageSendingRequest(message));
-
             return AuthCodeDto.of(authCodeRepository.saveAuthCode(phoneNumber, code));
             
         } catch (Exception e) {

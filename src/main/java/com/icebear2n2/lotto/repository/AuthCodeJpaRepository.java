@@ -11,7 +11,7 @@ public interface AuthCodeJpaRepository extends JpaRepository<AuthCode, Long> {
 
     AuthCode findByUserAndCode(User user, String code);
 
-    @Query("SELECT a FROM AUTH_CODES a WHERE a.PHONE_NUMBER = ?1 ORDER BY a.COMPLETED_AT DESC limit 1")
-    AuthCode findByPhone(String phoneNumber);
+//    @Query("SELECT a FROM AUTH_CODES a WHERE a.PHONE_NUMBER = ?1 ORDER BY a.COMPLETED_AT DESC limit 1")
+//    AuthCode findByPhone(String phoneNumber);
 
 }

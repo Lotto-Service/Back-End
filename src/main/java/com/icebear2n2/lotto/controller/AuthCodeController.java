@@ -23,13 +23,13 @@ public class AuthCodeController {
 	private final AuthCodeService authCodeService;
 	
 	@PostMapping
-	public Response<AuthCodeDto> sendAuthCode(@RequestParam String phoneNumber, Authentication authentication) {
+	public Response<AuthCodeDto> sendAuthCode(@RequestParam("phoneNumber") String phoneNumber, Authentication authentication) {
 		return Response.success(authCodeService.sendAuthCode((User) authentication.getPrincipal(), phoneNumber));
 	}
 
 	
 	@GetMapping
-	public Response<AuthCodeDto> checkAuthCode(@RequestParam String phoneNumber, Authentication authentication, String code) {
+	public Response<AuthCodeDto> checkAuthCode(@RequestParam("phoneNumber") String phoneNumber, Authentication authentication, String code) {
 		return Response.success(authCodeService.checkAuthCode(phoneNumber,(User) authentication.getPrincipal(), code));
 	}
 	
