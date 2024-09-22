@@ -63,4 +63,9 @@ public class UserRepository {
     public User findById(Long userId) {
         return userJpaRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
+
+	@Transactional
+	public User updateByPassword(User user) {
+		return userJpaRepository.save(user);
+	}
 }

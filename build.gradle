@@ -47,8 +47,6 @@ dependencies {
 
 	// coolSMS
     implementation 'net.nurigo:sdk:4.3.0'
- // For handling INI files
-    implementation 'org.ini4j:ini4j:0.5.4'
     
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

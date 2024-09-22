@@ -2,6 +2,7 @@ package com.icebear2n2.lotto.service;
 
 import java.util.Random;
 
+import com.icebear2n2.lotto.model.entity.AuthCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,10 @@ public class AuthCodeService {
     public AuthCodeDto checkAuthCode(String phoneNumber, User currentUser, String code) {
     	return AuthCodeDto.of(authCodeRepository.checkAuthCode(phoneNumber, code, currentUser));
     }
+
+    public AuthCode getValidAuthCode(String phoneNumber, String code) {
+        return authCodeRepository.getValidAuthCode(phoneNumber, code);
+    }
     
     public Balance getBalance() {
     	return this.defaultMessageService.getBalance();
@@ -69,5 +74,9 @@ public class AuthCodeService {
          } while (authCodeRepository.isCodeIssuedToUser(currentUser, String.valueOf(code)));
     	 
          return String.valueOf(code);
+    }
+
+    public AuthCodeDto completedSaveAuthCode(AuthCode authCode) {
+        return AuthCodeDto.of(authCodeRepository.completedSaveAuthCode(authCode));
     }
 }

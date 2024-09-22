@@ -31,7 +31,7 @@ public class AuthCodeRepository {
 	private final UserJpaRepository userJpaRepository;
     
     public AuthCode saveAuthCode(User currentUser, String phoneNumber, String code) {
-    	AuthCode authCode = new AuthCode(currentUser, phoneNumber, code, ZonedDateTime.now().plus(5, ChronoUnit.MINUTES));
+    	AuthCode authCode = new AuthCode(currentUser, phoneNumber, code, ZonedDateTime.now().plusMinutes(5));
     	
     	return authCodeJpaRepository.save(authCode);
     }
@@ -58,7 +58,7 @@ public class AuthCodeRepository {
     	return authCode;
     }
     
-    private AuthCode getValidAuthCode(String phoneNumber, String code) {
+    public AuthCode getValidAuthCode(String phoneNumber, String code) {
     	AuthCode authCode = authCodeJpaRepository.findByPhoneNumberAndCode(phoneNumber, code);
     	
     	if (authCode != null && authCode.getExpirationTime().isBefore(ZonedDateTime.now())) {
@@ -74,7 +74,7 @@ public class AuthCodeRepository {
     }
     
     private User getByUser(Long userId) {
-    	return userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
+    	return userJpaRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
     
     private void updateUserPhoneNumber(User user, String phoneNumber) {
@@ -82,9 +82,9 @@ public class AuthCodeRepository {
     	userJpaRepository.save(user);
     }
     
-    private void completedSaveAuthCode(AuthCode authCode) {
+    public AuthCode completedSaveAuthCode(AuthCode authCode) {
     	authCode.setCompletedAt(ZonedDateTime.now());
-    	authCodeJpaRepository.save(authCode);
+    	return authCodeJpaRepository.save(authCode);
     }
     
 
