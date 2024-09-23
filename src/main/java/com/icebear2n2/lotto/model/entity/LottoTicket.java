@@ -25,7 +25,7 @@ public class LottoTicket {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "DRAW_NO", referencedColumnName = "DRAW_NO")
+    @JoinColumn(name = "FK_DRAW_NO", referencedColumnName = "DRAW_NO")
     private Round round;
 
     @Convert(converter = IntegerListConverter.class)

@@ -35,7 +35,9 @@ public class UserService implements UserDetailsService {
 
         if (passwordEncoder.matches(request.password(), user.getPassword())) {
             var accessToken = jwtService.generateAccessToken(user);
-            return new UserAuthenticationResponse(accessToken);
+            var refreshToken = jwtService.generateRefreshToken(user);
+            
+            return new UserAuthenticationResponse(accessToken, refreshToken);
         } else {
             throw new UserNotFoundException();
         }

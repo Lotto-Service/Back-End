@@ -14,7 +14,7 @@ public class DhlotteryController {
     private final DhlotteryService dhlotteryService;
 
     @PutMapping("/{drwNo}")
-    public Response<DhlotteryRoundDto> saveByLottoNumberAndPrize(@PathVariable Long drwNo) throws JsonProcessingException {
+    public Response<DhlotteryRoundDto> saveByLottoNumberAndPrize(@PathVariable("drwNo") Long drwNo) throws JsonProcessingException {
         return Response.success(dhlotteryService.saveByLottoNumberAndPrize(drwNo));
     }
 }

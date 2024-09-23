@@ -1,7 +1,9 @@
 package com.icebear2n2.lotto.repository;
 
+import com.icebear2n2.lotto.exception.user.InvalidPasswordException;
 import com.icebear2n2.lotto.exception.user.UserAlreadyExistException;
 import com.icebear2n2.lotto.exception.user.UserNotFoundException;
+import com.icebear2n2.lotto.exception.user.UserUnderageException;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.model.request.UserSignUpRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -49,11 +51,11 @@ public class UserRepository {
     	Period age = Period.between(birth, now);
     	
     	if (age.getYears() < 18) {
-    		throw new IllegalArgumentException("User must be at least 18 years old.");
+    	    throw new UserUnderageException(age.getYears());
     	}
-    	
+
     	if (request.password().length() < 8) {
-    	    throw new IllegalArgumentException("Password must be at least 8 characters long.");
+    	    throw new InvalidPasswordException(request.password().length());
     	}
     	
         return userJpaRepository.save(new User(request.username(), passwordEncoder.encode(request.password()), request.email(), request.birth(), request.phoneNumber()));
