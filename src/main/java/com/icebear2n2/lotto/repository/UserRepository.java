@@ -67,7 +67,7 @@ public class UserRepository {
     }
 
 	@Transactional
-	public User updateByPassword(User user) {
+	public User update(User user) {
 		return userJpaRepository.save(user);
 	}
 }
