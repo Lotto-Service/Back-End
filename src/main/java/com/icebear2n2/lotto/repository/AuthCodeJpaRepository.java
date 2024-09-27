@@ -9,6 +9,6 @@ import com.icebear2n2.lotto.model.entity.User;
 
 public interface AuthCodeJpaRepository extends JpaRepository<AuthCode, Long> {
  	Optional<AuthCode> findByUserPhoneNumberAndCode(String phoneNumber, String code);
- 	Optional<AuthCode> findByUserAndCode(User user, String code);
+ 	AuthCode findByUserAndCode(User user, String code);
 
 }

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class RoundController {
     private final RoundService roundService;
 
-    @PostMapping("/{drawNo}")
-    public Response<RoundDto> emptyCreate(@PathVariable Long drawNo) {
-    	return Response.success(roundService.emptyCreate(drawNo));
+    @PostMapping("/{drwNo}")
+    public Response<RoundDto> emptyCreate(@PathVariable("drwNo") Long drwNo) {
+    	return Response.success(roundService.emptyCreate(drwNo));
     }
     
     @GetMapping

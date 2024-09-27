@@ -10,5 +10,6 @@ import com.icebear2n2.lotto.model.entity.User;
 public interface RefreshTokenJpaRepository extends JpaRepository<RefreshToken, Long>{
 	Optional<RefreshToken> findByToken(String token);
 	Optional<RefreshToken> findByUser(User user);
+	boolean existsByUser(User user);
 	void deleteByUser(User user);
 }

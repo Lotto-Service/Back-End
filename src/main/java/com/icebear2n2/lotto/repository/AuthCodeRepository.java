@@ -25,7 +25,7 @@ public class AuthCodeRepository {
 	}
 	
 	public AuthCode findByUserAndCode(User user, String code) {
-		return authCodeJpaRepository.findByUserAndCode(user, code).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 사용자(" + user.getUsername() + ")와 일치하는 인증 코드를 찾을 수 없습니다."));
+		return authCodeJpaRepository.findByUserAndCode(user, code);
 	}
 	
 	public void update(AuthCode code) {

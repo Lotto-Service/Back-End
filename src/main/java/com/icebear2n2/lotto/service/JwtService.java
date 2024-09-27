@@ -2,13 +2,10 @@ package com.icebear2n2.lotto.service;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -28,16 +25,10 @@ import java.util.Date;
 public class JwtService {
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
-    @Value("${jwt-secret}")
-    private String jwtSecret;  // 환경 설정에서 시크릿 키 주입
-    private SecretKey key;
+    private static final SecretKey key = Jwts.SIG.HS256.key().build();
 
     private final RefreshTokenRepository refreshTokenRepository;
     
-    @PostConstruct
-    public void init() {
-        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes()); // SecretKey 초기화
-    }
     
     public String generateAccessToken(UserDetails userDetails) {
         return generateToken(userDetails.getUsername(), 1000 * 60 * 60 * 3); // 3시간 만료
@@ -77,7 +68,12 @@ public class JwtService {
         String refreshToken = generateToken(user.getUsername(), expirationMillis);
         ZonedDateTime expiredAt = ZonedDateTime.now().plusDays(7);
 
-        refreshTokenRepository.create(user, refreshToken, expiredAt);
+        if (refreshTokenRepository.existsByUser(user)) {
+        	refreshTokenRepository.update(user, refreshToken, expiredAt);
+        } else {
+        	refreshTokenRepository.create(user, refreshToken, expiredAt);
+        }
+        
         return refreshToken;
     }
     
@@ -92,7 +88,7 @@ public class JwtService {
 
     	} catch (JwtException e) {
     		logger.error("JWT 유효성 검사 실패: {}", e.getMessage());
-    		throw new ClientErrorException(HttpStatus.NOT_FOUND, "토큰을 찾을 수 없습니다.");
+    		throw new ClientErrorException(HttpStatus.UNAUTHORIZED, "토큰이 일치하지 않습니다.");
     	}
     }
 }

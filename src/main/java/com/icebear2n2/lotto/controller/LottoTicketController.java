@@ -35,13 +35,13 @@ public class LottoTicketController {
         return Response.success(lottoTicketService.findAllByUser((User) authentication.getPrincipal(), pageRequest));
     }
 
-    @GetMapping("/{drawNo}")
-    public Response<Page<LottoTicketDto>> findAllByRoundDrawNo(@PathVariable Long drawNo,
+    @GetMapping("/{drwNo}")
+    public Response<Page<LottoTicketDto>> findAllByRoundDrawNo(@PathVariable("drwNo") Long drwNo,
                                                                Authentication authentication,
                                                                @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
                                                                @RequestParam(name = "page", required = false, defaultValue = "5") Integer page) {
         PageRequest pageRequest = PageRequest.of(size, page);
 
-        return Response.success(lottoTicketService.findAllByRoundDrawNo((User) authentication.getPrincipal(), drawNo, pageRequest));
+        return Response.success(lottoTicketService.findAllByRoundDrawNo((User) authentication.getPrincipal(), drwNo, pageRequest));
     }
 }

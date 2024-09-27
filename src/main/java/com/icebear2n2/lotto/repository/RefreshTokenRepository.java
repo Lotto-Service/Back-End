@@ -31,6 +31,19 @@ public class RefreshTokenRepository {
 		return refreshTokenJpaRepository.findByUser(user).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 유저(" + user.getUsername() +")와 일치하는 토큰을 찾을 수 없습니다."));
 	}
 	
+	public boolean existsByUser(User user) {
+		return refreshTokenJpaRepository.existsByUser(user);
+	}
+	
+	@Transactional
+	public void update(User user, String token, ZonedDateTime expiredAt) {
+		RefreshToken refreshToken = findByUser(user);
+		refreshToken.setToken(token);
+		refreshToken.setExpiredAt(expiredAt);
+		
+		refreshTokenJpaRepository.save(refreshToken);
+	}
+	
 	public void delete(RefreshToken token) {
 		refreshTokenJpaRepository.delete(token);
 	}

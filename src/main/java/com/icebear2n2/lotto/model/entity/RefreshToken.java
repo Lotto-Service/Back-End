@@ -48,6 +48,9 @@ public class RefreshToken {
 		this.token = token;
 	}
 
+	public void setExpiredAt(ZonedDateTime expiredAt) {
+		this.expiredAt = expiredAt;
+	}
 
-    
+	
 }

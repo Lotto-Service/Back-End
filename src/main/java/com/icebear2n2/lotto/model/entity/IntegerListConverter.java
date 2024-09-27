@@ -11,15 +11,28 @@ public class IntegerListConverter implements AttributeConverter<List<Integer>, S
 
     @Override
     public String convertToDatabaseColumn(List<Integer> attribute) {
-        return attribute != null ? attribute.stream()
+        if (attribute == null || attribute.isEmpty()) {
+            return ""; // 빈 리스트는 빈 문자열로 저장
+        }
+        return attribute.stream()
                 .map(String::valueOf)
-                .collect(Collectors.joining(",")) : null;
+                .collect(Collectors.joining(","));
     }
 
     @Override
     public List<Integer> convertToEntityAttribute(String dbData) {
-        return dbData != null ? Arrays.stream(dbData.split(","))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList()) : null;
+        if (dbData == null || dbData.isEmpty()) {
+            return List.of(); // 빈 문자열일 경우 빈 리스트 반환
+        }
+
+        try {
+            // 숫자로 변환할 수 없는 값이 들어올 가능성을 대비한 처리
+            return Arrays.stream(dbData.split(","))
+//                    .map(String::trim) // 혹시 모를 공백 제거
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("DB에서 가져온 데이터가 올바른 숫자 형식이 아닙니다: " + dbData, e);
+        }
     }
 }

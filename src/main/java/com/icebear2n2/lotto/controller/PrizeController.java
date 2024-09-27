@@ -21,9 +21,9 @@ import java.util.List;
 public class PrizeController {
     private final PrizeService prizeService;
 
-    @PostMapping("/{drawNo}")
-    public Response<PrizeDto> emptyCreate(@PathVariable Long drawNo) {
-    	return Response.success(prizeService.emptyCreate(drawNo));
+    @PostMapping("/{drwNo}")
+    public Response<PrizeDto> emptyCreate(@PathVariable("drwNo") Long drwNo) {
+    	return Response.success(prizeService.emptyCreate(drwNo));
     }
     
     @GetMapping
