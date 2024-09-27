@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.repository.RefreshTokenRepository;
 import com.icebear2n2.lotto.repository.UserRepository;
@@ -47,6 +48,12 @@ public class JwtService {
     }
     public String getUsername(String accessToken) {
         return getSubject(accessToken);
+    }
+    
+    public void invalidateRefreshToken(String refreshToken) {
+    	RefreshToken token = refreshTokenRepository.findByToken(refreshToken);
+    	
+    	refreshTokenRepository.delete(token);
     }
     
     private String generateToken(String subject, long expirationMillis) {
