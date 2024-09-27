@@ -16,10 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LottoTicketService {
     private final LottoTicketRepository lottoTicketRepository;
-
-    public LottoTicketDto createByManual(LottoTicketCreateRequest request, User currentUser) {
-        return LottoTicketDto.of(lottoTicketRepository.createByManual(request, currentUser));
-    }
     
     public List<LottoTicketDto> createLottoTickets(List<LottoTicketCreateRequest> requests, User currentUser) {
     	return lottoTicketRepository.createLottoTickets(requests, currentUser).stream()

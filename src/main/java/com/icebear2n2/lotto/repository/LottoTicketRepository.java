@@ -21,13 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class LottoTicketRepository {
     private final LottoTicketJpaRepository lottoTicketJpaRepository;
     private final RoundRepository roundRepository;
-
-    @Transactional
-    public LottoTicket createByManual(LottoTicketCreateRequest request, User currentUser) {
-        Round round = getRound(request.drawNo());
-
-        return lottoTicketJpaRepository.save(new LottoTicket(currentUser, round, request.numList(), request.isAuto()));
-    }
     
     @Transactional
     public List<LottoTicket> createLottoTickets(List<LottoTicketCreateRequest> requests, User currentUser) {
@@ -41,7 +34,6 @@ public class LottoTicketRepository {
     	
     	return savedTickets;
     }
-
 
     public Page<LottoTicket> findAllByUser(User currentUser, Pageable pageable) {
         return lottoTicketJpaRepository.findAllByUser(currentUser, pageable);

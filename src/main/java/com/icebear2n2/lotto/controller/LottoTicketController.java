@@ -20,11 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LottoTicketController {
     private final LottoTicketService lottoTicketService;
-
-    @PostMapping("/manual")
-    public Response<LottoTicketDto> createByManual(@RequestBody LottoTicketCreateRequest request, Authentication authentication) {
-        return Response.success(lottoTicketService.createByManual(request, (User) authentication.getPrincipal()));
-    }
     
     @PostMapping
     public Response<List<LottoTicketDto>> createLottoTickets(@RequestBody List<LottoTicketCreateRequest> requests, Authentication authentication) {
