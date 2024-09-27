@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/lotto
+    username: root
+    password: qwer1234!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: 'classpath:data/schema.sql'
+      data-locations: 'classpath:data/data.sql'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+nurigo:
+  api:
+    key: NCSFJO2KEXSOTZMM
+    secret: PQ6HQBDVK0QCTXWZKSJRMW1WV3DLQOGX
+jwt-secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
