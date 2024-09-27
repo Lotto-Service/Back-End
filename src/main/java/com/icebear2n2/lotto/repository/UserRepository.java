@@ -6,7 +6,6 @@ import com.icebear2n2.lotto.exception.user.UserNotFoundException;
 import com.icebear2n2.lotto.exception.user.UserUnderageException;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.model.request.UserSignUpRequest;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserRepository {
     private final UserJpaRepository userJpaRepository;
-    private final JPAQueryFactory jpaQueryFactory;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public User findByUsername(String username) {
