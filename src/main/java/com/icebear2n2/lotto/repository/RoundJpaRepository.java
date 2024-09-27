@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.Optional;
 
 public interface RoundJpaRepository extends JpaRepository<Round, Long> {
+	Optional<Round> findByDrawNo(Long drawNo);
+  
     Optional<Round> findByDrawNoAndDrawDate(Long drawNo, Date drawDate);
     Page<Round> findAll(Pageable pageable);
 

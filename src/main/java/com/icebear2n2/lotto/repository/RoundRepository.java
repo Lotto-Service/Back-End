@@ -19,8 +19,12 @@ public class RoundRepository {
         return roundJpaRepository.save(round);
     }
 
-    public Round emptyCreate(Long drawNo, Date drawDate) {
-       return roundJpaRepository.save(new Round(drawNo, drawDate));
+    public Round emptyCreate(Long drawNo) {
+       return roundJpaRepository.save(new Round(drawNo));
+    }
+    
+    public Optional<Round> findByDrawNo(Long drawNo) {
+        return roundJpaRepository.findByDrawNo(drawNo);
     }
 
     public Optional<Round> findByDrawNoAndDrawDate(Long drawNo, Date drawDate) {

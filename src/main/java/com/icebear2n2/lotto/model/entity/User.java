@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @Column(name = "BIRTH")
     private Date birth;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER", nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "CREATED_AT")
@@ -53,7 +53,14 @@ public class User implements UserDetails {
         this.birth = birth;
         this.phoneNumber = phoneNumber;
     }
-
+    
+    public void setPhoneNumber(String phoneNumber) {
+    	this.phoneNumber = phoneNumber;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

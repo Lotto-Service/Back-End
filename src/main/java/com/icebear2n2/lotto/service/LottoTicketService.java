@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +20,10 @@ public class LottoTicketService {
     public LottoTicketDto createByManual(LottoTicketCreateRequest request, User currentUser) {
         return LottoTicketDto.of(lottoTicketRepository.createByManual(request, currentUser));
     }
-
-    public LottoTicketDto createByAutomatic(User currentUser, Long drawNo, Date drawDate) {
-        return LottoTicketDto.of(lottoTicketRepository.crateByAutomatic(currentUser, drawNo, drawDate));
+    
+    public List<LottoTicketDto> createLottoTickets(List<LottoTicketCreateRequest> requests, User currentUser) {
+    	return lottoTicketRepository.createLottoTickets(requests, currentUser).stream()
+    			.map(LottoTicketDto::of).toList();
     }
 
     public Page<LottoTicketDto> findAllByUser(User currentUser, Pageable pageable) {

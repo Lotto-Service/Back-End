@@ -1,6 +1,8 @@
 package com.icebear2n2.lotto.model.request;
 
-import java.util.Date;
+import java.util.List;
 
-public record LottoTicketCreateRequest(Long drawNo, Date drawDate, int num1, int num2, int num3, int num4, int num5, int num6, boolean isAuto) {
+import com.icebear2n2.lotto.model.IsAuto;
+
+public record LottoTicketCreateRequest(Long drawNo, List<Integer> numList, IsAuto isAuto) {
 }

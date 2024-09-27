@@ -18,7 +18,7 @@ public class Prize {
     private Long prizeId;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "DRAW_NO", referencedColumnName = "DRAW_NO")
+    @JoinColumn(name = "FK_DRAW_NO", referencedColumnName = "DRAW_NO")
     private Round round;
 
     @Column(name = "TOT_SELLAMNT")
