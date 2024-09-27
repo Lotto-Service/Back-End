@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.model.response.Response;
 import com.icebear2n2.lotto.service.AuthCodeService;
+import com.icebear2n2.lotto.service.BalanceService;
 
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.message.model.Balance;
@@ -18,22 +19,21 @@ import net.nurigo.sdk.message.model.Balance;
 @RequestMapping("/api/v1/verification")
 @RequiredArgsConstructor
 public class AuthCodeController {
-	private final AuthCodeService authCodeService;
-	
-	 @PostMapping
-	    public Response<String> sendAuthCode(Authentication authentication) {
-	        return Response.success(authCodeService.sendAuthCode((User) authentication.getPrincipal()));
-	    }
+    private final AuthCodeService authCodeService;
+    private final BalanceService balanceService;
+
+    @PostMapping
+    public Response<String> sendAuthCode(Authentication authentication) {
+        return Response.success(authCodeService.sendAuthCode((User) authentication.getPrincipal()));
+    }
 
     @GetMapping
     public Response<String> checkAuthCode(Authentication authentication, @RequestParam("code") String code) {
-    	return Response.success(authCodeService.checkAuthCode((User) authentication.getPrincipal(), code));
-        
+        return Response.success(authCodeService.checkAuthCode((User) authentication.getPrincipal(), code));
     }
 
     @GetMapping("/balance")
     public Response<Balance> getBalance() {
-        Balance balance = authCodeService.getBalance();
-        return Response.success(balance);
+        return Response.success(balanceService.getBalance());
     }
 }

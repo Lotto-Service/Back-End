@@ -22,10 +22,6 @@ public class UserRepository {
     private final UserJpaRepository userJpaRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public User findByUsername(String username) {
-        return userJpaRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-    }
-
     @Transactional
     public User create(UserSignUpRequest request) {
     	
@@ -58,8 +54,15 @@ public class UserRepository {
     	
         return userJpaRepository.save(new User(request.username(), passwordEncoder.encode(request.password()), request.email(), request.birth(), request.phoneNumber()));
     }
+    
+    public User findByUsername(String username) {
+        return userJpaRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    }
 
-    @Transactional
+    public boolean existsByUsername(String username) {
+    	return userJpaRepository.existsByUsername(username);
+    }
+
     public User findById(Long userId) {
         return userJpaRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }

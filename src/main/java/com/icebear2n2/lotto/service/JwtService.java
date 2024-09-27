@@ -2,14 +2,18 @@ package com.icebear2n2.lotto.service;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.icebear2n2.lotto.exception.auth.InvalidTokenException;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.repository.RefreshTokenRepository;
@@ -25,35 +29,36 @@ import java.util.Date;
 public class JwtService {
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
-    private static final SecretKey key = Jwts.SIG.HS256.key().build();
+    @Value("${jwt-secret}")
+    private String jwtSecret;  // 환경 설정에서 시크릿 키 주입
+    private SecretKey key;
 
     private final RefreshTokenRepository refreshTokenRepository;
     
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes()); // SecretKey 초기화
+    }
+    
     public String generateAccessToken(UserDetails userDetails) {
-        return generateToken(userDetails.getUsername(), 1000 * 60 * 60 * 3);
+        return generateToken(userDetails.getUsername(), 1000 * 60 * 60 * 3); // 3시간 만료
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-    	long expirationMillis = 1000L * 60 * 60 * 24 * 7;
-    	Date expirationDate = new Date(System.currentTimeMillis() + expirationMillis);
-    	
-    	String refreshToken = generateToken(userDetails.getUsername(), expirationMillis);
-    	
-    	User user = (User) userDetails;
-    	ZonedDateTime expiredAt = ZonedDateTime.now().plusDays(7);
-    	
-    	refreshTokenRepository.create(user, refreshToken, expiredAt);
-    	
-    	return refreshToken;
+        long expirationMillis = 1000L * 60 * 60 * 24 * 7; // 7일 만료
+        return generateAndSaveRefreshToken((User) userDetails, expirationMillis);
     }
+    
     public String getUsername(String accessToken) {
         return getSubject(accessToken);
     }
     
     public void invalidateRefreshToken(String refreshToken) {
-    	RefreshToken token = refreshTokenRepository.findByToken(refreshToken);
-    	
-    	refreshTokenRepository.delete(token);
+        RefreshToken token = refreshTokenRepository.findByToken(refreshToken);
+        if (token == null) {
+            throw new InvalidTokenException();
+        }
+        refreshTokenRepository.delete(token);
     }
     
     private String generateToken(String subject, long expirationMillis) {
@@ -68,6 +73,14 @@ public class JwtService {
     			.compact();
     }
     
+    private String generateAndSaveRefreshToken(User user, long expirationMillis) {
+        String refreshToken = generateToken(user.getUsername(), expirationMillis);
+        ZonedDateTime expiredAt = ZonedDateTime.now().plusDays(7);
+
+        refreshTokenRepository.create(user, refreshToken, expiredAt);
+        return refreshToken;
+    }
+    
     private String getSubject(String token) {
     	try {
     		return Jwts.parser()
@@ -78,8 +91,8 @@ public class JwtService {
     				.getSubject();
 
     	} catch (JwtException e) {
-    		logger.error("JwtException", e);
-    		throw e;
+    		logger.error("JWT 유효성 검사 실패: {}", e.getMessage());
+            throw new InvalidTokenException();
     	}
     }
 }

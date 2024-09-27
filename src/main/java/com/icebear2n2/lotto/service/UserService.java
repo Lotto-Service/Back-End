@@ -1,5 +1,8 @@
 package com.icebear2n2.lotto.service;
 
+import com.icebear2n2.lotto.exception.auth.InvalidTokenException;
+import com.icebear2n2.lotto.exception.user.InvalidPasswordException;
+import com.icebear2n2.lotto.exception.user.UserAlreadyExistException;
 import com.icebear2n2.lotto.exception.user.UserNotFoundException;
 import com.icebear2n2.lotto.model.dto.UserDto;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
@@ -32,6 +35,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto signUp(UserSignUpRequest request) {
+    	validateSignUpRequest(request);
         return UserDto.of(userRepository.create(request));
     }
 
@@ -49,13 +53,24 @@ public class UserService implements UserDetailsService {
     }
     
     public void logout(User user) {
-    	RefreshToken refreshToken = refreshTokenRepository.findByUser(user);
-    	jwtService.invalidateRefreshToken(refreshToken.getToken());
-    	
-    	SecurityContextHolder.clearContext();
+        RefreshToken refreshToken = refreshTokenRepository.findByUser(user);
+        if (refreshToken == null) {
+            throw new InvalidTokenException();
+        }
+        jwtService.invalidateRefreshToken(refreshToken.getToken());
+        SecurityContextHolder.clearContext();
     }
 
     private User getByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    
+    private void validateSignUpRequest(UserSignUpRequest request) {
+        if (userRepository.existsByUsername(request.username())) {
+            throw new UserAlreadyExistException();
+        }
+        if (request.password().length() < 8) {
+            throw new InvalidPasswordException();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public Response<UserDto> signUp(@RequestBody UserSignUpRequest request) {
+    public Response<UserDto> signUp(@Valid @RequestBody UserSignUpRequest request) {
         return Response.success(userService.signUp(request));
     }
 

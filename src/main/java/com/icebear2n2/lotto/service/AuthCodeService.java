@@ -4,24 +4,16 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.icebear2n2.lotto.exception.auth.AuthCodeExpiredException;
-import com.icebear2n2.lotto.exception.auth.AuthCodeFailedSendException;
 import com.icebear2n2.lotto.exception.auth.InvalidCredentialException;
 import com.icebear2n2.lotto.model.entity.AuthCode;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.repository.AuthCodeRepository;
-import com.icebear2n2.lotto.repository.UserRepository;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.model.Balance;
 import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Service
 @RequiredArgsConstructor
@@ -29,36 +21,18 @@ public class AuthCodeService {
 	private static final String AUTH_MESSAGE_FORMAT = "[Web발신] 인증번호: %s";
 	private final Random random;
 	private final AuthCodeRepository authCodeRepository;
-    private final UserRepository userRepository;
-    private DefaultMessageService defaultMessageService;
+    private final MessagingService messagingService;
     
-    @Value("${nurigo.api.key}")
-    private String nurigoApiKey;
 
-    @Value("${nurigo.api.secret}")
-    private String nurigoApiSecret;
-    
-    @PostConstruct
-    public void initDefaultMessageService() {
-        this.defaultMessageService = NurigoApp.INSTANCE.initialize(nurigoApiKey, nurigoApiSecret, "https://api.coolsms.co.kr");
-    }
     
     public String sendAuthCode(User user) {
-        String code = generateCode(user);
+    	 String code = generateCode(user);
 
-        Message message = new Message();
-        message.setFrom(user.getPhoneNumber());
-        message.setTo(user.getPhoneNumber());
-        message.setText(String.format(AUTH_MESSAGE_FORMAT, code));
+         Message message = createMessage(user.getPhoneNumber(), code);
+         messagingService.sendMessage(message); // 메시지 전송 로직 분리
 
-        try {
-            this.defaultMessageService.sendOne(new SingleMessageSendingRequest(message));
-            saveAuthCode(user, code);
-            
-            return "메세지를 성공적으로 발송했습니다.";
-        } catch (Exception e) {
-            throw new AuthCodeFailedSendException();
-        }
+         saveAuthCode(user, code);
+         return "메세지를 성공적으로 발송했습니다.";
     }
     
     public String checkAuthCode(User user, String code) {
@@ -74,11 +48,6 @@ public class AuthCodeService {
         
         return "인증 확인이 완료되었습니다.";
     }
-    
-    // 잔액 조회
-    public Balance getBalance() {
-        return this.defaultMessageService.getBalance();
-    } 
     
     
     private void saveAuthCode(User user, String code) {
@@ -97,6 +66,13 @@ public class AuthCodeService {
         return authCodeRepository.findByUserAndCode(user, code) != null;
     }
 
+    private Message createMessage(String phoneNumber, String code) {
+        Message message = new Message();
+        message.setFrom(phoneNumber);
+        message.setTo(phoneNumber);
+        message.setText(String.format(AUTH_MESSAGE_FORMAT, code));
+        return message;
+    }
     
     private AuthCode getValidAuthCode(String phone, String code) {
         AuthCode authCode = authCodeRepository.findByUserPhoneNumberAndCode(phone, code);
@@ -110,11 +86,6 @@ public class AuthCodeService {
         }
 
         return authCode;
-    }
-    
-    private void updateUserPhoneNumber(User user, String phoneNumber) {
-    	user.setPhoneNumber(phoneNumber);
-    	userRepository.update(user);
     }
     
     private void completedSaveAuthCode(AuthCode authCode) {
