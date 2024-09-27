@@ -1,6 +1,5 @@
 package com.icebear2n2.lotto.repository;
 
-import com.icebear2n2.lotto.exception.round.RoundNotFoundException;
 import com.icebear2n2.lotto.model.entity.LottoTicket;
 import com.icebear2n2.lotto.model.entity.Round;
 import com.icebear2n2.lotto.model.entity.User;
@@ -44,7 +43,7 @@ public class LottoTicketRepository {
     }
 
     private Round getRound(Long drawNo) {
-        return roundRepository.findByDrawNo(drawNo).orElseThrow(RoundNotFoundException::new);
+        return roundRepository.findByDrawNo(drawNo);
     }
 
 }

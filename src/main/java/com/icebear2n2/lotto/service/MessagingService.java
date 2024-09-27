@@ -1,8 +1,9 @@
 package com.icebear2n2.lotto.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.icebear2n2.lotto.exception.auth.AuthCodeFailedSendException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +20,7 @@ public class MessagingService {
 		try {
 			defaultMessageService.sendOne(new SingleMessageSendingRequest(message));
 		} catch (Exception e) {
-			throw new AuthCodeFailedSendException();
+			throw new ClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "인증번호를 전송할 수 없습니다.");
 		}
 	}
 }

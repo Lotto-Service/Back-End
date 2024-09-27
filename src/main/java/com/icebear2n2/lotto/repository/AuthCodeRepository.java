@@ -2,9 +2,10 @@ package com.icebear2n2.lotto.repository;
 
 import java.time.ZonedDateTime;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import com.icebear2n2.lotto.exception.auth.AuthCodeNotFoundException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.entity.AuthCode;
 import com.icebear2n2.lotto.model.entity.User;
 
@@ -20,11 +21,11 @@ public class AuthCodeRepository {
 	}
 	
 	public AuthCode findByUserPhoneNumberAndCode(String phoneNumber, String code) {
-		return authCodeJpaRepository.findByUserPhoneNumberAndCode(phoneNumber, code);
+		return authCodeJpaRepository.findByUserPhoneNumberAndCode(phoneNumber, code).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 전화번호(" + phoneNumber + ")와 일치하는 인증 코드를 찾을 수 없습니다."));
 	}
 	
 	public AuthCode findByUserAndCode(User user, String code) {
-		return authCodeJpaRepository.findByUserAndCode(user, code);
+		return authCodeJpaRepository.findByUserAndCode(user, code).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 사용자(" + user.getUsername() + ")와 일치하는 인증 코드를 찾을 수 없습니다."));
 	}
 	
 	public void update(AuthCode code) {

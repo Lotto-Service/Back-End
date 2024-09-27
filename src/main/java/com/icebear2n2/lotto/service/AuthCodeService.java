@@ -4,10 +4,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.icebear2n2.lotto.exception.auth.AuthCodeExpiredException;
-import com.icebear2n2.lotto.exception.auth.InvalidCredentialException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.entity.AuthCode;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.repository.AuthCodeRepository;
@@ -78,11 +78,11 @@ public class AuthCodeService {
         AuthCode authCode = authCodeRepository.findByUserPhoneNumberAndCode(phone, code);
         if (authCode != null && authCode.getExpiredAt().isBefore(ZonedDateTime.now())) {
             authCodeRepository.delete(authCode);
-            throw new AuthCodeExpiredException();
+            throw new ClientErrorException(HttpStatus.BAD_REQUEST, "인증 코드가 만료되었습니다.");
         }
 
         if (authCode == null) {
-            throw new InvalidCredentialException();
+            throw new ClientErrorException(HttpStatus.BAD_REQUEST, "인증 코드를 찾을 수 없습니다.");
         }
 
         return authCode;

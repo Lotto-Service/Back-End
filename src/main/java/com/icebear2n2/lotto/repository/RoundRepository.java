@@ -1,14 +1,15 @@
 package com.icebear2n2.lotto.repository;
 
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.entity.Round;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,12 +24,12 @@ public class RoundRepository {
        return roundJpaRepository.save(new Round(drawNo));
     }
     
-    public Optional<Round> findByDrawNo(Long drawNo) {
-        return roundJpaRepository.findByDrawNo(drawNo);
+    public Round findByDrawNo(Long drawNo) {
+        return roundJpaRepository.findByDrawNo(drawNo).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
     }
 
-    public Optional<Round> findByDrawNoAndDrawDate(Long drawNo, Date drawDate) {
-        return roundJpaRepository.findByDrawNoAndDrawDate(drawNo, drawDate);
+    public Round findByDrawNoAndDrawDate(Long drawNo, Date drawDate) {
+        return roundJpaRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
     }
 
     public Page<Round> findAll(Pageable pageable) { return roundJpaRepository.findAll(pageable); }

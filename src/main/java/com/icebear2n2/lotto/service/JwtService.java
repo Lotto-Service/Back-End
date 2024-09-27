@@ -9,15 +9,14 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.icebear2n2.lotto.exception.auth.InvalidTokenException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
 import com.icebear2n2.lotto.repository.RefreshTokenRepository;
-import com.icebear2n2.lotto.repository.UserRepository;
 
 import javax.crypto.SecretKey;
 
@@ -56,8 +55,9 @@ public class JwtService {
     public void invalidateRefreshToken(String refreshToken) {
         RefreshToken token = refreshTokenRepository.findByToken(refreshToken);
         if (token == null) {
-            throw new InvalidTokenException();
+            throw new ClientErrorException(HttpStatus.NOT_FOUND, "리프레시 토큰을 찾을 수 없습니다.");
         }
+        
         refreshTokenRepository.delete(token);
     }
     
@@ -92,7 +92,7 @@ public class JwtService {
 
     	} catch (JwtException e) {
     		logger.error("JWT 유효성 검사 실패: {}", e.getMessage());
-            throw new InvalidTokenException();
+    		throw new ClientErrorException(HttpStatus.NOT_FOUND, "토큰을 찾을 수 없습니다.");
     	}
     }
 }

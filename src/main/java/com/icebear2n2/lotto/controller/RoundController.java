@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class RoundController {
     private final RoundService roundService;
 
+    @PostMapping("/{drawNo}")
+    public Response<RoundDto> emptyCreate(@PathVariable Long drawNo) {
+    	return Response.success(roundService.emptyCreate(drawNo));
+    }
+    
     @GetMapping
     public Response<Page<RoundDto>> findAll(
             @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,

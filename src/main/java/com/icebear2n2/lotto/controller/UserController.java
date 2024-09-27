@@ -34,7 +34,7 @@ public class UserController {
     
     @PostMapping("/logout")
     public Response<String> logout(Authentication authentication) {
-    	userService.logout((User) authentication.getPrincipal());
-    	return Response.success("Logged out successfully");
+    	return Response.success(userService.logout((User) authentication.getPrincipal()));
+    	
     }
 }

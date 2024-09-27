@@ -1,9 +1,6 @@
 package com.icebear2n2.lotto.service;
 
-import com.icebear2n2.lotto.exception.auth.InvalidTokenException;
-import com.icebear2n2.lotto.exception.user.InvalidPasswordException;
-import com.icebear2n2.lotto.exception.user.UserAlreadyExistException;
-import com.icebear2n2.lotto.exception.user.UserNotFoundException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.dto.UserDto;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
@@ -14,6 +11,7 @@ import com.icebear2n2.lotto.repository.RefreshTokenRepository;
 import com.icebear2n2.lotto.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,7 +33,6 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto signUp(UserSignUpRequest request) {
-    	validateSignUpRequest(request);
         return UserDto.of(userRepository.create(request));
     }
 
@@ -48,29 +45,23 @@ public class UserService implements UserDetailsService {
             
             return new UserAuthenticationResponse(accessToken, refreshToken);
         } else {
-            throw new UserNotFoundException();
+            throw new ClientErrorException(HttpStatus.NOT_FOUND, "계정 정보가 일치하지 않거나, 존재하지 않는 계정입니다.");
         }
     }
     
-    public void logout(User user) {
+    public String logout(User user) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user);
         if (refreshToken == null) {
-            throw new InvalidTokenException();
+            throw new ClientErrorException(HttpStatus.NOT_FOUND, "토큰 정보를 찾을 수 없습니다.");
         }
         jwtService.invalidateRefreshToken(refreshToken.getToken());
         SecurityContextHolder.clearContext();
+        
+        return "성공적으로 로그아웃되었습니다.";
     }
 
     private User getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    
-    private void validateSignUpRequest(UserSignUpRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
-            throw new UserAlreadyExistException();
-        }
-        if (request.password().length() < 8) {
-            throw new InvalidPasswordException();
-        }
-    }
+  
 }

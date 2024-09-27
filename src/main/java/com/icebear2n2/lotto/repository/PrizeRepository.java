@@ -1,6 +1,5 @@
 package com.icebear2n2.lotto.repository;
 
-import com.icebear2n2.lotto.exception.round.RoundNotFoundException;
 import com.icebear2n2.lotto.model.entity.Prize;
 import com.icebear2n2.lotto.model.entity.Round;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Repository
@@ -27,8 +22,8 @@ public class PrizeRepository {
         return prizeJpaRepository.save(prize);
     }
 
-    public void emptyCreate(Round round) {
-        prizeJpaRepository.save(new Prize(round));
+    public Prize emptyCreate(Round round) {
+        return prizeJpaRepository.save(new Prize(round));
     }
 
     public Page<Prize> findAll(PageRequest pageRequest) {
@@ -36,7 +31,7 @@ public class PrizeRepository {
     }
 
     public Prize findByRoundDrawNoAndDrawDate(Long drawNo, Date drawDate) {
-        Round round = roundRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElseThrow(RoundNotFoundException::new);
+        Round round = roundRepository.findByDrawNoAndDrawDate(drawNo, drawDate);
         return prizeJpaRepository.findByRoundDrawNoAndRoundDrawDate(drawNo, drawDate).orElse(new Prize(round));
     }
 

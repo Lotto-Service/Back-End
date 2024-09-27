@@ -2,9 +2,10 @@ package com.icebear2n2.lotto.repository;
 
 import java.time.ZonedDateTime;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import com.icebear2n2.lotto.exception.auth.InvalidTokenException;
+import com.icebear2n2.lotto.exception.ClientErrorException;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
 
@@ -23,11 +24,11 @@ public class RefreshTokenRepository {
 	}
 	
 	public RefreshToken findByToken(String token) {
-		return refreshTokenJpaRepository.findByToken(token).orElseThrow(InvalidTokenException::new);
+		return refreshTokenJpaRepository.findByToken(token).orElseThrow(() -> new ClientErrorException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."));
 	}
 	
 	public RefreshToken findByUser(User user) {
-		return refreshTokenJpaRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException("No refresh token found for user"));
+		return refreshTokenJpaRepository.findByUser(user).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 유저(" + user.getUsername() +")와 일치하는 토큰을 찾을 수 없습니다."));
 	}
 	
 	public void delete(RefreshToken token) {

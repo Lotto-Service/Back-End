@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 public class RoundService {
     private final RoundRepository roundRepository;
 
+    public RoundDto emptyCreate(Long drawNo) {
+    	return RoundDto.of(roundRepository.emptyCreate(drawNo));
+    }
+    
     public Page<RoundDto> findAll(PageRequest pageRequest) {
         Page<Round> all = roundRepository.findAll(pageRequest);
         return all.map(RoundDto::of);
