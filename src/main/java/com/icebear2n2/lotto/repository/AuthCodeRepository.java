@@ -21,7 +21,7 @@ public class AuthCodeRepository {
 	}
 	
 	public AuthCode findByUserPhoneNumberAndCode(String phoneNumber, String code) {
-		return authCodeJpaRepository.findByUserPhoneNumberAndCode(phoneNumber, code).orElseThrow(() -> new ClientErrorException(HttpStatus.OK, "해당 전화번호(" + phoneNumber + ")와 일치하는 인증 코드를 찾을 수 없습니다."));
+		return authCodeJpaRepository.findByUserPhoneNumberAndCode(phoneNumber, code).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 전화번호(" + phoneNumber + ")와 일치하는 인증 코드를 찾을 수 없습니다."));
 	}
 	
 	public AuthCode findByUserAndCode(User user, String code) {

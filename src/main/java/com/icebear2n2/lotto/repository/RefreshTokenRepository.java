@@ -24,11 +24,11 @@ public class RefreshTokenRepository {
 	}
 	
 	public RefreshToken findByToken(String token) {
-		return refreshTokenJpaRepository.findByToken(token).orElseThrow(() -> new ClientErrorException(HttpStatus.OK, "유효하지 않은 토큰입니다."));
+		return refreshTokenJpaRepository.findByToken(token).orElseThrow(() -> new ClientErrorException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."));
 	}
 	
 	public RefreshToken findByUser(User user) {
-		return refreshTokenJpaRepository.findByUser(user).orElseThrow(() -> new ClientErrorException(HttpStatus.OK, "해당 유저(" + user.getUsername() +")와 일치하는 토큰을 찾을 수 없습니다."));
+		return refreshTokenJpaRepository.findByUser(user).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 유저(" + user.getUsername() +")와 일치하는 토큰을 찾을 수 없습니다."));
 	}
 	
 	public boolean existsByUser(User user) {

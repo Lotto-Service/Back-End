@@ -19,7 +19,7 @@ public class MessagingService {
         try {
             defaultMessageService.sendOne(new SingleMessageSendingRequest(message));
         } catch (Exception e) {
-            throw new ClientErrorException(HttpStatus.OK, "메시지 전송 실패");
+            throw new ClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "메시지 전송 실패");
         }
     }
 }
