@@ -5,9 +5,6 @@ import java.time.ZonedDateTime;
 import com.icebear2n2.lotto.model.entity.RefreshToken;
 import com.icebear2n2.lotto.model.entity.User;
 
-import lombok.Getter;
-
-@Getter
 public class RefreshTokenDto {
 	private final UserDto user;
 	private final String token;
