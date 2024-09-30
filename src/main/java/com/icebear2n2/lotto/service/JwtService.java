@@ -88,7 +88,7 @@ public class JwtService {
 
     	} catch (JwtException e) {
     		logger.error("JWT 유효성 검사 실패: {}", e.getMessage());
-    		throw new ClientErrorException(HttpStatus.UNAUTHORIZED, "토큰이 일치하지 않습니다.");
+    		throw new ClientErrorException(HttpStatus.OK, "토큰이 일치하지 않습니다.");
     	}
     }
 }

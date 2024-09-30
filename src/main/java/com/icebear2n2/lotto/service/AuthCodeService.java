@@ -78,11 +78,11 @@ public class AuthCodeService {
         AuthCode authCode = authCodeRepository.findByUserPhoneNumberAndCode(phone, code);
         if (authCode != null && authCode.getExpiredAt().isBefore(ZonedDateTime.now())) {
             authCodeRepository.delete(authCode);
-            throw new ClientErrorException(HttpStatus.BAD_REQUEST, "인증 코드가 만료되었습니다.");
+            throw new ClientErrorException(HttpStatus.OK, "인증 코드가 만료되었습니다.");
         }
 
         if (authCode == null) {
-            throw new ClientErrorException(HttpStatus.BAD_REQUEST, "인증 코드를 찾을 수 없습니다.");
+            throw new ClientErrorException(HttpStatus.OK, "인증 코드를 찾을 수 없습니다.");
         }
 
         return authCode;

@@ -45,14 +45,14 @@ public class UserService implements UserDetailsService {
             
             return new UserAuthenticationResponse(accessToken, refreshToken);
         } else {
-            throw new ClientErrorException(HttpStatus.NOT_FOUND, "계정 정보가 일치하지 않거나, 존재하지 않는 계정입니다.");
+            throw new ClientErrorException(HttpStatus.OK, "계정 정보가 일치하지 않거나, 존재하지 않는 계정입니다.");
         }
     }
     
     public String logout(User user) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user);
         if (refreshToken == null) {
-            throw new ClientErrorException(HttpStatus.NOT_FOUND, "토큰 정보를 찾을 수 없습니다.");
+            throw new ClientErrorException(HttpStatus.OK, "토큰 정보를 찾을 수 없습니다.");
         }
         jwtService.invalidateRefreshToken(refreshToken.getToken());
         SecurityContextHolder.clearContext();

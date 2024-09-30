@@ -25,11 +25,11 @@ public class RoundRepository {
     }
     
     public Round findByDrawNo(Long drawNo) {
-        return roundJpaRepository.findByDrawNo(drawNo).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
+        return roundJpaRepository.findByDrawNo(drawNo).orElseThrow(() -> new ClientErrorException(HttpStatus.OK, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
     }
 
     public Round findByDrawNoAndDrawDate(Long drawNo, Date drawDate) {
-        return roundJpaRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
+        return roundJpaRepository.findByDrawNoAndDrawDate(drawNo, drawDate).orElseThrow(() -> new ClientErrorException(HttpStatus.OK, "해당 추첨 번호에 대한 회차 정보를 찾을 수 없습니다."));
     }
 
     public Page<Round> findAll(Pageable pageable) { return roundJpaRepository.findAll(pageable); }
