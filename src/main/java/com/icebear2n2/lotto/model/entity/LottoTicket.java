@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import com.icebear2n2.lotto.model.IsAuto;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

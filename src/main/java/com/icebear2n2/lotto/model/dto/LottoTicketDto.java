@@ -1,6 +1,7 @@
 package com.icebear2n2.lotto.model.dto;
 
-import com.icebear2n2.lotto.model.IsAuto;
+
+import com.icebear2n2.lotto.model.entity.IsAuto;
 import com.icebear2n2.lotto.model.entity.LottoTicket;
 import com.icebear2n2.lotto.model.entity.Round;
 import com.icebear2n2.lotto.model.entity.User;
