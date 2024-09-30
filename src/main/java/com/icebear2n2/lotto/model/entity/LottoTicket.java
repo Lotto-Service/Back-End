@@ -32,7 +32,7 @@ public class LottoTicket {
     @Column(name = "NUM_LIST", nullable = false)
     private List<Integer> numList;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "IS_AUTO", nullable = false)
     private IsAuto isAuto;
     
