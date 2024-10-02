@@ -42,6 +42,10 @@ public class WebConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/api/*/users/**", "/api/*/users/authenticate")
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/*/recovery/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/*/recovery/**")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

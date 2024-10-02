@@ -74,7 +74,7 @@ public class AuthCodeService {
         return message;
     }
     
-    private AuthCode getValidAuthCode(String phone, String code) {
+    public AuthCode getValidAuthCode(String phone, String code) {
         AuthCode authCode = authCodeRepository.findByUserPhoneNumberAndCode(phone, code);
         if (authCode != null && authCode.getExpiredAt().isBefore(ZonedDateTime.now())) {
             authCodeRepository.delete(authCode);
@@ -88,7 +88,7 @@ public class AuthCodeService {
         return authCode;
     }
     
-    private void completedSaveAuthCode(AuthCode authCode) {
+    public void completedSaveAuthCode(AuthCode authCode) {
     	authCode.setCompletedAt(ZonedDateTime.now());
     	authCodeRepository.update(authCode);
     }
