@@ -33,7 +33,9 @@ public class RoundRepository {
     }
 
     public Page<Round> findAll(Pageable pageable) { return roundJpaRepository.findAll(pageable); }
-
+    
+    public Page<Round> findAllByDrawNo(Long drawNo, Pageable pageable) { return roundJpaRepository.findAllByDrawNo(drawNo, pageable); }
+    
     public void update(Long drawNo, Date drawDate, int winningNum1, int winningNum2, int winningNum3, int winningNum4, int winningNum5, int winningNum6, int bonusNumber) {
         roundJpaRepository.updateRound(drawNo, drawDate, winningNum1, winningNum2, winningNum3, winningNum4, winningNum5, winningNum6, bonusNumber);
     }

@@ -27,4 +27,16 @@ public class RoundController {
         PageRequest pageRequest = PageRequest.of(size, page);
         return Response.success(roundService.findAll(pageRequest));
     }
+    
+    @GetMapping("/{drwNo}")
+    public Response<Page<RoundDto>> findAllByDrawNo(
+    		@PathVariable("drwNo") Long drwNo,
+    		@RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
+            @RequestParam(name = "page", required = false, defaultValue = "5") Integer page
+    ) {
+        PageRequest pageRequest = PageRequest.of(size, page);
+        
+        return Response.success(roundService.findAllByDrawNo(drwNo, pageRequest));
+    }
+    
 }

@@ -22,4 +22,9 @@ public class RoundService {
         Page<Round> all = roundRepository.findAll(pageRequest);
         return all.map(RoundDto::of);
     }
+    
+    public Page<RoundDto> findAllByDrawNo(Long drawNo, PageRequest pageRequest) {
+    	Page<Round> all = roundRepository.findAllByDrawNo(drawNo, pageRequest);
+    	return all.map(RoundDto::of);
+    }
 }

@@ -18,6 +18,7 @@ public interface RoundJpaRepository extends JpaRepository<Round, Long> {
 	Optional<Round> findByDrawNo(Long drawNo);
     Optional<Round> findByDrawNoAndDrawDate(Long drawNo, Date drawDate);
     Page<Round> findAll(Pageable pageable);
+    Page<Round> findAllByDrawNo(Long drawNo, Pageable pageable);
 
     @Modifying
     @Transactional
